@@ -16,7 +16,7 @@ poyta = [[n][2]]
 # eli jos [0][0] niin nainen menee x ja mies y
 
 def istumaan(henkilo):
-    if henkilo.sukupuoli != 'mies' and lajittelemattomat[kohta] != null:
+    if henkilo.sukupuoli != 'mies' and henkilo != null:
         # On siis nainen tai muu
         if i % 2 == 0 and j % 2 == 0 and poyta[i][j] == null:
             # On siis parillinen ja parillinen
@@ -40,7 +40,7 @@ def istumaan(henkilo):
         if j == 2:
             j = 0
 
-    if henkilo.sukupuoli != 'nainen':
+    if henkilo.sukupuoli != 'nainen' and henkilo != null:
         # On siis mies tai muu
         if i % 2 == 1 and j % 2 == 1 and poyta[i][j] == null:
             # On siis pariton ja pariton
