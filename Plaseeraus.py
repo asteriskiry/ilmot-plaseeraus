@@ -1,19 +1,41 @@
+import random
 #Alkuun oliolista osallistujista
 
 lajittelemattomat = []
 # for looppi tallentamaan kaikki osallistujat
 # lajittelemattomat = [Participant.objects.filter(event_type=uid)]
 # lajittelemattomat listaan
+shuffle(lajittelemattomat)
 
+kohta=0
 i=0
-j=1
+j=0
 n=len(lajittelemattomat)
 
 poyta =[[n][2]]
 # poyta.[x][y], jos x on parillinen nainen oikealla, parittomalla nainen vasemmalla
 # eli jos [0][0] niin nainen menee x ja mies y
 
-if(lajittelemattomat[i].sukupuoli='mies' || lajittelemattomat[i].sukupuoli='muu')
-    asdasd
-if(lajittelemattomat[i].sukupuoli='nainen' || lajittelemattomat[i].sukupuoli='muu')
+if(lajittelemattomat[kohta].sukupuoli !='mies' && lajittelemattomat[kohta] !=null): #On siis nainen tai muu
+    if(i%%2=0 && j%%2=0 && poyta[i][j]==null): #on siis parillinen ja parillinen
+        lajittelemattomat[kohta]=poyta[i][j]
+        i+=1
+    elif(i%%2=0 && j%%2=1 && poyta[i][j]==null): #on siis parillinen ja pariton
+        lajittelemattomat[kohta]=poyta[i][j]
+        j+=1
+    elif(poyta[i][j] != null):
+        if j==2:
+            j=0
+        if i==n:
+            i=0
+        if(poyta[i+1][j] == null):
+            poyta[i+1][j]=lajittelemattomat[kohta]
+        elif(poyta[i][j+1] ==null):
+            poyta[i][j+1]=lajittelemattomat[kohta]
+    kohta += 1
+
+    if j==2:
+        j=0
+
+if(lajittelemattomat[kohta].sukupuoli!='nainen'): #On siis mies tai muu
     sdfsdf
