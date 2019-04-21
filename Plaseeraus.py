@@ -1,5 +1,6 @@
 import random
 # Alkuun oliolista osallistujista
+# TODO lisää Juuson text_preprocessing_template.py viittaus alkuun, että nimet halutussa muodossa
 
 lajittelemattomat = [Participant.objects.filter(event_type=uid)]
 # lajittelemattomat listaan
@@ -27,7 +28,7 @@ def istumaan(henkilo):
     global jN
     global iM
     global jM
-    if henkilo.sukupuoli != 'mies' and henkilo != null:
+    if henkilo.gender != 'man' and henkilo != null:
         # On siis nainen tai muu
         if iN % 2 == 0 and jN % 2 == 0 and poyta[iN][jN] == null:
             # On siis parillinen ja parillinen
@@ -50,7 +51,7 @@ def istumaan(henkilo):
         if jN == 2:
             jN = 0
 
-    if henkilo.sukupuoli != 'nainen' and henkilo != null:
+    if henkilo.gender != 'woman' and henkilo != null:
         # On siis mies tai muu
         if iM % 2 == 1 and jM % 2 == 1 and poyta[iM][jM] == null:
             # On siis pariton ja pariton
@@ -78,8 +79,8 @@ def istumaan(henkilo):
 
 
 def poytaseurueistumaan(henkilo):
-    for h in henkilo.poytaseurue:
-        if henkilo.poytaseurue(h) != null:
+    for h in henkilo.friends:
+        if henkilo.friends(h) != null:
             istumaan(h)
 
 # TODO lisää jokin, jolla mennään eteenpäin lista
