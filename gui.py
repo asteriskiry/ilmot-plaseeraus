@@ -16,9 +16,10 @@ class GUI(Frame):
 
         self.pack(fill="both", expand=True)
 
-        # Olion attribuutit, toiseen tallentuu osallistujamäärä, toiseen pöytien määrä
+        # Olion attribuutit
         self.koko = StringVar()
         self.poydat = StringVar()
+        self.buttonit = []
 
         # Kutsutaan vaihetta jossa luodaan nappulat sun muut
         self.content()
@@ -34,6 +35,7 @@ class GUI(Frame):
 
     # Submit buttonin toiminnallisuus
     def suorita(self):
+        self.buttonit = []
 
         # Haetaan olion attribuuteista arvot sekä muunnetaan ne floatista inttiin
         osallistujat = int(self.koko.get())
@@ -41,22 +43,33 @@ class GUI(Frame):
         poytaosallistujat = int(osallistujat/poydat)
 
         # Iteroidaan osallistujat "pöytiin" eli oikeille paikoille framea
-        # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä jos tarvetta
-        osallistujalista = []
-        for i in range(poydat):
+        # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä
+        paikkanro = 0
+        for j in range(poydat):
             ypos = 20
-            xpos = 200 * i
-            for i in range(1, poytaosallistujat+1):
-                btnOsallistuja = Button(self.frame2, text="Nimi")
-                if (i % 2 == 0):
+            xpos = 200 * j
+            for i in range(poytaosallistujat):
+                self.buttonit.append(Button(self.frame2, text="Nimi", command=lambda c=paikkanro: self.lisatiedot(c)))
+                if (i % 2 != 0):
                     xpos += 40
                     ypos -= 28
-                    btnOsallistuja.place(x = xpos, y = ypos)
+                    self.buttonit[paikkanro].place(x = xpos, y = ypos)
                     xpos -= 40
                 else:
-                    btnOsallistuja.place(x = xpos, y = ypos)
-                osallistujalista.append(btnOsallistuja)
+                    self.buttonit[paikkanro].place(x = xpos, y = ypos)
                 ypos += 28
+                paikkanro += 1
+    
+    def lisatiedot(self, paikkanro):
+        top = Toplevel()
+        top.title("Lisätiedot")
+        paikka = "Paikka: " + str(paikkanro)
+
+        lisatiedot = Label(top, text="Lisätiedot:").pack(pady=2)
+        paikkanumero = Label(top, text=paikka).pack(pady=2)
+        pois = Button(top, text="Pois", command=top.destroy).pack(pady=2)
+
+
 
 # Ikkunan alustus ja suorittaminen
 mainWindow = Tk()
