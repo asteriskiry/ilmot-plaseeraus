@@ -1,4 +1,5 @@
 import random
+import xlsxwriter
 # Alkuun oliolista osallistujista
 # TODO lisää Juuson text_preprocessing_template.py viittaus alkuun, että nimet halutussa muodossa
 
@@ -98,3 +99,35 @@ while kohta < n:
         y += 1
         if y == 2:
             y = 0
+
+# Koodi exceliin
+workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
+worksheet = workbook.add_worksheet()
+row = 0
+col = 0
+# Käyttöliittymästä true/false food ja drink attribuutteihin
+if food is None and drink is None:
+    while row < n + 1:
+        worksheet.write(row, col, poyta[row][col].name)
+        worksheet.write(row, col + 1, poyta[row][col + 1].name)
+        row += 1
+
+elif food is None and drink:
+    while row < n+1:
+        worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton)
+        worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton)
+        row += 1
+
+elif food and drink is None:
+    while row < n+1:
+        worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].lihaton)
+        worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].lihaton)
+        row += 1
+
+elif food and drink:
+    while row < n+1:
+        worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton + ', ' + poyta[row][col].lihaton)
+        worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton + ', ' + poyta[row][col+1].lihaton)
+        row += 1
+
+workbook.close()
