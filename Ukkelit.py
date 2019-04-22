@@ -19,4 +19,6 @@ Lalli = Henkilo("Lalli", "man", [Paavi], "holillinen", "piispa")
 Malli = Henkilo("Malli", None, [Saakko], "holillinen", "lihaa")
 Nalli = Henkilo("Nalli", "other", [], "holillinen", "kasvis")
 
-testiukkoja = [Sanna, Janna, Manna, Jaakko, Anna, Kaakko, Saakko, Laakko, Salli, Lalli, Malli, Nalli]]
+testiukkoja = [Sanna, Janna, Manna, Jaakko, Anna, Kaakko, Saakko, Laakko, Salli, Lalli, Malli, Nalli]
+def tuolista():
+    return testiukkoja

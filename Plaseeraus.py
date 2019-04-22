@@ -1,10 +1,15 @@
 import random
 import xlsxwriter
+from Ukkelit import tuolista
+
+
 # Alkuun oliolista osallistujista
 # TODO lisää Juuson text_preprocessing_template.py viittaus alkuun, että nimet halutussa muodossa
 # Lisätään tuo tokenizer myöhemmin hienosäädössä
 
-lajittelemattomat = [Participant.objects.filter(event_type=uid)]
+# lajittelemattomat = [Participant.objects.filter(event_type=uid)]
+# Ylempi tulee korvaamaan alemman
+lajittelemattomat = tuolista()
 # lajittelemattomat listaan
 shuffle(lajittelemattomat)
 
