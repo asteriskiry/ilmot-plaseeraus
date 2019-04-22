@@ -28,46 +28,46 @@ def istumaan(henkilo):
     global jN
     global iM
     global jM
-    if henkilo.gender != 'man' and henkilo != null:
+    if henkilo.gender != 'man' and henkilo:
         # On siis nainen tai muu
-        if iN % 2 == 0 and jN % 2 == 0 and poyta[iN][jN] == null:
+        if iN % 2 == 0 and jN % 2 == 0 and poyta[iN][jN] is None:
             # On siis parillinen ja parillinen
             henkilo = poyta[iN][jN]
             iN += 1
-        elif iN % 2 == 0 and jN % 2 == 1 and poyta[iN][jN] == null:
+        elif iN % 2 == 0 and jN % 2 == 1 and poyta[iN][jN] is None:
             # On siis parillinen ja pariton
             henkilo = poyta[iN][jN]
             jN += 1
-        elif poyta[iN][jN] != null:
+        elif poyta[iN][jN]:
             if jN == 2:
                 jN = 0
             if iN == round(n/2):
                 iN = 0
-            if poyta[iN+1][jN] == null:
+            if poyta[iN+1][jN] is None:
                 poyta[iN+1][jN] = henkilo
-            elif poyta[iN][jN+1] == null:
+            elif poyta[iN][jN+1] is None:
                 poyta[iN][jN+1] = henkilo
 
         if jN == 2:
             jN = 0
 
-    if henkilo.gender != 'woman' and henkilo != null:
+    if henkilo.gender != 'woman' and henkilo:
         # On siis mies tai muu
-        if iM % 2 == 1 and jM % 2 == 1 and poyta[iM][jM] == null:
+        if iM % 2 == 1 and jM % 2 == 1 and poyta[iM][jM] is None:
             # On siis pariton ja pariton
             henkilo = poyta[iM][jM]
             jM += 1
-        elif iM % 2 == 1 and jM % 2 == 0 and poyta[iM][jM] == null:  # on siis parillinen ja pariton
+        elif iM % 2 == 1 and jM % 2 == 0 and poyta[iM][jM] is None:  # on siis parillinen ja pariton
             henkilo = poyta[iM][jM]
             iM += 1
-        elif poyta[iM][jM] != null:
+        elif poyta[iM][jM]:
             if jM == 2:
                 jM = 0
             if iM == round(n/2):
                 iM = 0
-            if poyta[iM + 1][jM] == null:
+            if poyta[iM + 1][jM] is None:
                 poyta[iM + 1][jM] = henkilo
-            elif poyta[iM][jM + 1] == null:
+            elif poyta[iM][jM + 1] is None:
                 poyta[iM][jM + 1] = henkilo
 
         if jM == 2:
@@ -80,7 +80,7 @@ def istumaan(henkilo):
 
 def poytaseurueistumaan(henkilo):
     for h in henkilo.friends:
-        if henkilo.friends(h) != null:
+        if henkilo.friends(h):
             istumaan(h)
 
 # TODO lisää jokin, jolla mennään eteenpäin lista
@@ -92,7 +92,7 @@ while kohta < n:
     istumaan(lajittelemattomat[kohta])
     kohta += 1
 
-    while poyta[x][y] != null and poyta[x+1][y] != null and poyta[x+1][y+1] != null and poyta[x][y+1]:
+    while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
         poytaseurueistumaan(poyta[x][y])
         x += 1
         y += 1
