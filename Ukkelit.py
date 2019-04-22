@@ -7,17 +7,26 @@ class Henkilo:
         self.lihaton = lihaton
 
 Anna = Henkilo("Anna", "woman", [], "holiton", "lihaa")
-Sanna = Henkilo("Sanna", "other", [Anna], "holillinen", "lihaa")
-Janna = Henkilo("Janna", "woman", [Manna, Salli], "holillinen", "lihaa")
+Sanna = Henkilo("Sanna", "other", [], "holillinen", "lihaa")
+Janna = Henkilo("Janna", "woman", [], "holillinen", "lihaa")
 Manna = Henkilo("Manna", "woman", [], "holillinen", "kasvis")
-Jaakko = Henkilo("Jaakko", "man", [Lalli], "holiton", "lihaa")
-Kaakko = Henkilo("Kaakko", "man", [Jaakko, Salli], "holiton", "lihaa")
-Saakko = Henkilo("Saakko", "other", [Malli, Lalli, Laakko], "holillinen", "lihaa")
-Laakko = Henkilo("Laakko", "man", [Saakko], "holillinen", "kasvis")
-Salli = Henkilo("Salli", "woman", [Kaakko, Janna], "holiton", "lihaa")
-Lalli = Henkilo("Lalli", "man", [Paavi], "holillinen", "piispa")
-Malli = Henkilo("Malli", None, [Saakko], "holillinen", "lihaa")
+Jaakko = Henkilo("Jaakko", "man", [], "holiton", "lihaa")
+Kaakko = Henkilo("Kaakko", "man", [], "holiton", "lihaa")
+Saakko = Henkilo("Saakko", "other", [], "holillinen", "lihaa")
+Laakko = Henkilo("Laakko", "man", [], "holillinen", "kasvis")
+Salli = Henkilo("Salli", "woman", [], "holiton", "lihaa")
+Lalli = Henkilo("Lalli", "man", [], "holillinen", "piispa")
+Malli = Henkilo("Malli", None, [], "holillinen", "lihaa")
 Nalli = Henkilo("Nalli", "other", [], "holillinen", "kasvis")
+
+Sanna.friends = [Anna]
+Janna.friends = [Manna, Salli]
+Jaakko.friends = [Lalli]
+Kaakko.friends = [Jaakko, Salli]
+Saakko.friends = [Malli, Lalli, Laakko]
+Laakko.friends = [Saakko]
+Salli.friends = [Kaakko, Janna]
+Malli.friends = [Saakko]
 
 testiukkoja = [Sanna, Janna, Manna, Jaakko, Anna, Kaakko, Saakko, Laakko, Salli, Lalli, Malli, Nalli]
 def tuolista():

@@ -11,7 +11,7 @@ from Ukkelit import tuolista
 # Ylempi tulee korvaamaan alemman
 lajittelemattomat = tuolista()
 # lajittelemattomat listaan
-shuffle(lajittelemattomat)
+random.shuffle(lajittelemattomat)
 
 # Kohta kertoo missä ollaan lajittelemattomien listalla
 kohta = 0
@@ -25,7 +25,7 @@ x = 0
 y = 0
 n = len(lajittelemattomat)
 
-poyta = [[round(n/2)][2]]
+poyta = [[round(n/2)],[2]]
 # poyta.[x][y], jos x on parillinen nainen oikealla, parittomalla nainen vasemmalla
 # eli jos [0][0] niin nainen menee x ja mies y
 
@@ -52,7 +52,7 @@ def istumaan(henkilo):
                 iN = 0
             if poyta[iN+1][jN] is None:
                 poyta[iN+1][jN] = henkilo
-            elif poyta[iN][jN+1] is None:
+            elif poyta[iN][jN] is None: # Poistettu +1 IndexErrorin takia
                 poyta[iN][jN+1] = henkilo
 
         if jN == 2:
@@ -74,7 +74,7 @@ def istumaan(henkilo):
                 iM = 0
             if poyta[iM + 1][jM] is None:
                 poyta[iM + 1][jM] = henkilo
-            elif poyta[iM][jM + 1] is None:
+            elif poyta[iM][jM] is None: # Poistettu +1 IndexErrorin takia
                 poyta[iM][jM + 1] = henkilo
 
         if jM == 2:

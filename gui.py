@@ -1,4 +1,6 @@
 from tkinter import *
+from Plaseeraus import plaseeraus
+from Ukkelit import tuolista
 
 class GUI(Frame):
     
@@ -41,6 +43,7 @@ class GUI(Frame):
         osallistujat = int(self.koko.get())
         poydat = int(self.poydat.get())
         poytaosallistujat = int(osallistujat/poydat)
+        henkilot = tuolista()
 
         # Iteroidaan osallistujat "pöytiin" eli oikeille paikoille framea
         # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä
@@ -49,24 +52,32 @@ class GUI(Frame):
             ypos = 20
             xpos = 200 * j
             for i in range(poytaosallistujat):
-                self.buttonit.append(Button(self.frame2, text="Nimi", command=lambda c=paikkanro: self.lisatiedot(c)))
+                valittuhenkilo = henkilot[0]
+                self.buttonit.append(Button(self.frame2, text=valittuhenkilo.name, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)))
                 if (i % 2 != 0):
-                    xpos += 40
+                    xpos += 60
                     ypos -= 28
                     self.buttonit[paikkanro].place(x = xpos, y = ypos)
-                    xpos -= 40
+                    xpos -= 60
                 else:
                     self.buttonit[paikkanro].place(x = xpos, y = ypos)
                 ypos += 28
                 paikkanro += 1
+                henkilot.remove(valittuhenkilo)
     
-    def lisatiedot(self, paikkanro):
+    def lisatiedot(self, paikkanro, vhenkilo):
         top = Toplevel()
         top.title("Lisätiedot")
+        nimi = "Nimi: " + vhenkilo.name
+        juoma = "Juoma: " + vhenkilo.holiton
+        ruoka = "Ruoka: " + vhenkilo.lihaton
         paikka = "Paikka: " + str(paikkanro)
 
         lisatiedot = Label(top, text="Lisätiedot:").pack(pady=2)
         paikkanumero = Label(top, text=paikka).pack(pady=2)
+        henknimi = Label(top, text=nimi).pack(pady=2)
+        henkjuoma = Label(top, text=juoma).pack(pady=2)
+        henkruoka = Label(top, text=ruoka).pack(pady=2)
         pois = Button(top, text="Pois", command=top.destroy).pack(pady=2)
 
 
