@@ -2,6 +2,7 @@ import random
 import xlsxwriter
 # Alkuun oliolista osallistujista
 # TODO lisää Juuson text_preprocessing_template.py viittaus alkuun, että nimet halutussa muodossa
+# Lisätään tuo tokenizer myöhemmin hienosäädössä
 
 lajittelemattomat = [Participant.objects.filter(event_type=uid)]
 # lajittelemattomat listaan
@@ -87,47 +88,53 @@ def poytaseurueistumaan(henkilo):
 # TODO lisää jokin, jolla mennään eteenpäin lista
 
 
-while kohta < n:
-    global x
-    global y
-    istumaan(lajittelemattomat[kohta])
-    kohta += 1
+def plaseeraus():
+    global kohta
+    while kohta < n:
+        global x
+        global y
+        istumaan(lajittelemattomat[kohta])
+        kohta += 1
 
-    while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
-        poytaseurueistumaan(poyta[x][y])
-        x += 1
-        y += 1
-        if y == 2:
-            y = 0
+        while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
+            poytaseurueistumaan(poyta[x][y])
+            x += 1
+            y += 1
+            if y == 2:
+                y = 0
+    return poyta
 
-# Koodi exceliin
-workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
-worksheet = workbook.add_worksheet()
-row = 0
-col = 0
-# Käyttöliittymästä true/false food ja drink attribuutteihin
-if food is None and drink is None:
-    while row < n + 1:
-        worksheet.write(row, col, poyta[row][col].name)
-        worksheet.write(row, col + 1, poyta[row][col + 1].name)
-        row += 1
 
-elif food is None and drink:
-    while row < n+1:
-        worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton)
-        worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton)
-        row += 1
+def excel():
+    # Koodi exceliin
+    workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
+    worksheet = workbook.add_worksheet()
+    row = 0
+    col = 0
+    # Käyttöliittymästä true/false food ja drink attribuutteihin
+    if food is None and drink is None:
+        while row < n + 1:
+            worksheet.write(row, col, poyta[row][col].name)
+            worksheet.write(row, col + 1, poyta[row][col + 1].name)
+            row += 1
 
-elif food and drink is None:
-    while row < n+1:
-        worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].lihaton)
-        worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].lihaton)
-        row += 1
+    elif food is None and drink:
+        while row < n+1:
+            worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton)
+            worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton)
+            row += 1
 
-elif food and drink:
-    while row < n+1:
-        worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton + ', ' + poyta[row][col].lihaton)
-        worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton + ', ' + poyta[row][col+1].lihaton)
-        row += 1
+    elif food and drink is None:
+        while row < n+1:
+            worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].lihaton)
+            worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].lihaton)
+            row += 1
 
-workbook.close()
+    elif food and drink:
+        while row < n+1:
+            worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton + ', ' + poyta[row][col].lihaton)
+            worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton + ', ' + poyta[row][col+1].lihaton)
+            row += 1
+
+    workbook.close()
+    return plaseeraus.xlsx
