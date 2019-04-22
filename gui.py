@@ -1,4 +1,5 @@
 from tkinter import *
+from Plaseeraus import plaseeraus
 
 class GUI(Frame):
     
@@ -41,6 +42,8 @@ class GUI(Frame):
         osallistujat = int(self.koko.get())
         poydat = int(self.poydat.get())
         poytaosallistujat = int(osallistujat/poydat)
+        henkilot = plaseeraus()
+        print(henkilot)
 
         # Iteroidaan osallistujat "pöytiin" eli oikeille paikoille framea
         # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä
