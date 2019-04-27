@@ -22,6 +22,7 @@ class GUI(Frame):
         self.koko = StringVar()
         self.poydat = StringVar()
         self.buttonit = []
+        self.labels = []
 
         # Kutsutaan vaihetta jossa luodaan nappulat sun muut
         self.content()
@@ -37,23 +38,36 @@ class GUI(Frame):
 
     # Submit buttonin toiminnallisuus
     def suorita(self):
-        self.buttonit = []
+        # Ruudun ja listojen tyhjennys uutta 'Suorita' painallusta varten
+        if len(self.buttonit) > 0:
+            for i in self.buttonit:
+                i.destroy()
+        self.buttonit.clear()
+        if len(self.labels) > 0:
+            for i in self.labels:
+                i.destroy()
+        self.labels.clear()
 
         # Haetaan olion attribuuteista arvot sekä muunnetaan ne floatista inttiin
-        osallistujat = int(self.koko.get())
-        poydat = int(self.poydat.get())
+        try:
+            osallistujat = int(self.koko.get())
+            poydat = int(self.poydat.get())
+        except ValueError:
+            return
         poytaosallistujat = int(osallistujat/poydat)
-        henkilot = tuolista()
+        henkilot = list(tuolista())
 
         # Iteroidaan osallistujat "pöytiin" eli oikeille paikoille framea
         # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä
         paikkanro = 0
         for j in range(poydat):
-            ypos = 20
+            ypos = 30
             xpos = 200 * j
+            self.labels.append(Label(self.frame2, text="Pöytä " + str(j+1)))
+            self.labels[j].place(x = xpos + 35, y = 0)
             for i in range(poytaosallistujat):
                 valittuhenkilo = henkilot[0]
-                self.buttonit.append(Button(self.frame2, text=valittuhenkilo.name, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)))
+                self.buttonit.append(Button(self.frame2, text=valittuhenkilo.name, width = 6, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)))
                 if (i % 2 != 0):
                     xpos += 60
                     ypos -= 28
@@ -67,6 +81,7 @@ class GUI(Frame):
     
     def lisatiedot(self, paikkanro, vhenkilo):
         top = Toplevel()
+        top.geometry('220x170')
         top.title("Lisätiedot")
         nimi = "Nimi: " + vhenkilo.name
         juoma = "Juoma: " + vhenkilo.holiton
