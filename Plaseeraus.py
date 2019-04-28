@@ -25,7 +25,7 @@ x = 0
 y = 0
 n = len(lajittelemattomat)
 
-poyta = [[round(n/2)],[2]]
+poyta = [[round(n/2)], [2]]
 # poyta.[x][y], jos x on parillinen nainen oikealla, parittomalla nainen vasemmalla
 # eli jos [0][0] niin nainen menee x ja mies y
 
@@ -48,11 +48,13 @@ def istumaan(henkilo):
         elif poyta[iN][jN]:
             if jN == 2:
                 jN = 0
-            if iN == round(n/2):
+            if iN == round(n/2) or iN + 1 >= round(n/2):
                 iN = 0
             if poyta[iN+1][jN] is None:
                 poyta[iN+1][jN] = henkilo
-            elif poyta[iN][jN] is None: # Poistettu +1 IndexErrorin takia
+            if jN + 1 >= 2:
+                jN = 0
+            elif poyta[iN][jN+1] is None:
                 poyta[iN][jN+1] = henkilo
 
         if jN == 2:
@@ -70,11 +72,13 @@ def istumaan(henkilo):
         elif poyta[iM][jM]:
             if jM == 2:
                 jM = 0
-            if iM == round(n/2):
+            if iM == round(n/2) or iM + 1 >= round(n/2):
                 iM = 0
             if poyta[iM + 1][jM] is None:
                 poyta[iM + 1][jM] = henkilo
-            elif poyta[iM][jM] is None: # Poistettu +1 IndexErrorin takia
+            if jM + 1 >= 2:
+                jM = 0
+            elif poyta[iM][jM + 1] is None:
                 poyta[iM][jM + 1] = henkilo
 
         if jM == 2:
