@@ -1,7 +1,7 @@
 import random
 import xlsxwriter
-from Ukkelit import tuolista
-import Ukkelit
+from Ukkelit import *
+import numpy
 
 
 # Alkuun oliolista osallistujista
@@ -10,7 +10,7 @@ import Ukkelit
 
 # lajittelemattomat = [Participant.objects.filter(event_type=uid)]
 # Ylempi tulee korvaamaan alemman
-lajittelemattomat = tuolista()
+lajittelemattomat = list(tuolista())
 # lajittelemattomat listaan
 random.shuffle(lajittelemattomat)
 
@@ -24,9 +24,9 @@ jN = 0
 # x ja y pitävät huolta pöydän indeksistä, jotta löydetään tyhjät kohdat
 x = 0
 y = 0
-n = len(lajittelemattomat)
+n = len(lajittelemattomat) # Turha alustus
 
-poyta = [[round(n/2), round(n/2)], [2, 2]]
+poyta = numpy.full((round(n/2), 2), Henkilo(None, None, None, None, None))#[[round(n/2), round(n/2)], [2, 2]]
 # poyta.[x][y], jos x on parillinen nainen oikealla, parittomalla nainen vasemmalla
 # eli jos [0][0] niin nainen menee x ja mies y
 
@@ -37,65 +37,71 @@ def istumaan(henkilo):
     global iM
     global jM
     print(henkilo.name)
-    print(henkilo.gender)
-    if henkilo.gender != 'man' and henkilo:
+    #print(henkilo.gender)
+    if henkilo.gender != "man": # and henkilo:
         # On siis nainen tai muu
-        if iN % 2 == 0 and jN % 2 == 0 and poyta[iN][jN] is None:
+        if iN % 2 == 0 and jN % 2 == 0: #and poyta[iN][jN].name is not None:
             # On siis parillinen ja parillinen
-            henkilo = poyta[iN][jN]
+            poyta[iN][jN] = henkilo
             iN += 1
-        elif iN % 2 == 0 and jN % 2 == 1 and poyta[iN][jN] is None:
+            print("!!Done1")
+        elif iN % 2 == 0 and jN % 2 == 1: #and poyta[iN][jN].name is not None:
             # On siis parillinen ja pariton
-            henkilo = poyta[iN][jN]
+            poyta[iN][jN] = henkilo
             jN += 1
-        elif poyta[iN][jN]:
-            print("jN: " + str(jN))
-            print("iN: " + str(iN))
+            print("!!Done2")
+        else: #if poyta[iN][jN]:
+            #print("jN: " + str(jN))
+            #print("iN: " + str(iN))
             if jN == 2:
                 jN = 0
             if iN == round(n/2) or iN + 1 >= round(n/2):
                 iN = 0
-            if poyta[iN+1][jN] is None:
+            if not (poyta[iN+1][jN].name is None):
                 poyta[iN+1][jN] = henkilo
-                print("True")
-            print("iN: " + str(iN))
-            print(henkilo.name)
-            print(henkilo.gender)
-            print(poyta[iN])
+                print("!!Done3")
+                #print("True")
+            #print("iN: " + str(iN))
+            #print(henkilo.name)
+            #print(henkilo.gender)
+            #print(poyta[iN])
             if jN + 1 >= 2:
                 jN = 0
-            elif poyta[iN][jN+1] is None:
+            elif not (poyta[iN][jN+1].name is None):
                 poyta[iN][jN+1] = henkilo
-                print("True")
-            print("iN: " + str(iN) + " jN: " + str(jN))
-
+                print("!!Done4")
+                #print("True")
+            #print("iN: " + str(iN) + " jN: " + str(jN))
         if jN == 2:
             jN = 0
 
-    if henkilo.gender != 'woman' and henkilo:
+    if henkilo.gender != "woman": # and henkilo:
         # On siis mies tai muu
-        if iM % 2 == 1 and jM % 2 == 1 and poyta[iM][jM] is None:
+        if iM % 2 == 1 and jM % 2 == 1: #and poyta[iM][jM] is None:
             # On siis pariton ja pariton
-            henkilo = poyta[iM][jM]
+            poyta[iM][jM] = henkilo
             jM += 1
-        elif iM % 2 == 1 and jM % 2 == 0 and poyta[iM][jM] is None:  # on siis parillinen ja pariton
-            henkilo = poyta[iM][jM]
+            print("!!Done1.2")
+        elif iM % 2 == 1 and jM % 2 == 0: #and poyta[iM][jM] is None:  # on siis parillinen ja pariton
+            poyta[iM][jM] = henkilo
             iM += 1
-        elif poyta[iM][jM]:
+            print("!!Done2.2")
+        else: #if poyta[iM][jM]:
             if jM == 2:
                 jM = 0
             if iM == round(n/2) or iM + 1 >= round(n/2):
                 iM = 0
-            if poyta[iM + 1][jM] is None:
+            if not (poyta[iM + 1][jM].name is None):
                 poyta[iM + 1][jM] = henkilo
-                print("True")
+                #print("True")
+                print("!!Done3.2")
             if jM + 1 >= 2:
                 jM = 0
-            elif poyta[iM][jM + 1] is None:
+            elif not (poyta[iM][jM + 1].name is None):
                 poyta[iM][jM + 1] = henkilo
-                print("True")
-            print("iM: " + str(iM) + " jM: " + str(jM))
-
+                #print("True")
+                print("!!Done4.2")
+            #print("iM: " + str(iM) + " jM: " + str(jM))
         if jM == 2:
             jM = 0
         if iM == round(n/2):
@@ -105,7 +111,6 @@ def istumaan(henkilo):
 
 
 def poytaseurueistumaan(henkilo):
-    print("poyta: " + str(poyta[0][0]))
     for h in henkilo.friends:
         if henkilo.friends(h):
             istumaan(h)
@@ -115,23 +120,21 @@ def poytaseurueistumaan(henkilo):
 
 def plaseeraus():
     global kohta
-    while kohta < n:
+    while kohta < len(lajittelemattomat):
         global x
-        global y
+        global y    
+        #print("len: " + str(len(lajittelemattomat)))
+        #print("kohta: " + str(kohta))
         istumaan(lajittelemattomat[kohta])
-        kohta += 1
+        #kohta += 1
 
-#        print(poyta[x+1][y])
-#        print(poyta[x][y+1])
-#        print(x+1)
-#        print(y+1)
-#        print(poyta[x+1][y+1])
-        while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
-            poytaseurueistumaan(poyta[x][y])
-            x += 1
-            y += 1
-            if y == 2:
-                y = 0
+        #while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
+        #    poytaseurueistumaan(poyta[x][y])
+        #    x += 1
+        #    y += 1
+        #    if y == 2:
+        #        y = 0
+    print(poyta)
     return poyta
 
 
@@ -169,8 +172,9 @@ def excel():
     workbook.close()
     return plaseeraus.xlsx
 
-#for row in poyta:
-#    for val in row:
-#        print('{}'.format(val)),
-#    print
-#henkilot = plaseeraus()
+print(poyta)
+henkilot = plaseeraus()
+#print(henkilot[0][0].name)
+for i in range(len(poyta[:,0])):
+    for j in range(len(poyta[0])):
+        print(poyta[i][j].name)
