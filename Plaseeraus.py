@@ -1,6 +1,7 @@
 import random
 import xlsxwriter
 from Ukkelit import tuolista
+import Ukkelit
 
 
 # Alkuun oliolista osallistujista
@@ -25,7 +26,7 @@ x = 0
 y = 0
 n = len(lajittelemattomat)
 
-poyta = [[round(n/2)], [2]]
+poyta = [[round(n/2), round(n/2)], [2, 2]]
 # poyta.[x][y], jos x on parillinen nainen oikealla, parittomalla nainen vasemmalla
 # eli jos [0][0] niin nainen menee x ja mies y
 
@@ -35,6 +36,8 @@ def istumaan(henkilo):
     global jN
     global iM
     global jM
+    print(henkilo.name)
+    print(henkilo.gender)
     if henkilo.gender != 'man' and henkilo:
         # On siis nainen tai muu
         if iN % 2 == 0 and jN % 2 == 0 and poyta[iN][jN] is None:
@@ -46,16 +49,25 @@ def istumaan(henkilo):
             henkilo = poyta[iN][jN]
             jN += 1
         elif poyta[iN][jN]:
+            print("jN: " + str(jN))
+            print("iN: " + str(iN))
             if jN == 2:
                 jN = 0
             if iN == round(n/2) or iN + 1 >= round(n/2):
                 iN = 0
             if poyta[iN+1][jN] is None:
                 poyta[iN+1][jN] = henkilo
+                print("True")
+            print("iN: " + str(iN))
+            print(henkilo.name)
+            print(henkilo.gender)
+            print(poyta[iN])
             if jN + 1 >= 2:
                 jN = 0
             elif poyta[iN][jN+1] is None:
                 poyta[iN][jN+1] = henkilo
+                print("True")
+            print("iN: " + str(iN) + " jN: " + str(jN))
 
         if jN == 2:
             jN = 0
@@ -76,10 +88,13 @@ def istumaan(henkilo):
                 iM = 0
             if poyta[iM + 1][jM] is None:
                 poyta[iM + 1][jM] = henkilo
+                print("True")
             if jM + 1 >= 2:
                 jM = 0
             elif poyta[iM][jM + 1] is None:
                 poyta[iM][jM + 1] = henkilo
+                print("True")
+            print("iM: " + str(iM) + " jM: " + str(jM))
 
         if jM == 2:
             jM = 0
@@ -90,6 +105,7 @@ def istumaan(henkilo):
 
 
 def poytaseurueistumaan(henkilo):
+    print("poyta: " + str(poyta[0][0]))
     for h in henkilo.friends:
         if henkilo.friends(h):
             istumaan(h)
@@ -102,17 +118,20 @@ def plaseeraus():
     while kohta < n:
         global x
         global y
-        print("kohta:"+str(kohta))
         istumaan(lajittelemattomat[kohta])
         kohta += 1
 
-        #Kommentoituna, while-lauseessa alapuolella jotain ongelmaa
-        #while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
-            #poytaseurueistumaan(poyta[x][y])
-            #x += 1
-            #y += 1
-            #if y == 2:
-                #y = 0
+#        print(poyta[x+1][y])
+#        print(poyta[x][y+1])
+#        print(x+1)
+#        print(y+1)
+#        print(poyta[x+1][y+1])
+        while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
+            poytaseurueistumaan(poyta[x][y])
+            x += 1
+            y += 1
+            if y == 2:
+                y = 0
     return poyta
 
 
@@ -149,3 +168,9 @@ def excel():
 
     workbook.close()
     return plaseeraus.xlsx
+
+#for row in poyta:
+#    for val in row:
+#        print('{}'.format(val)),
+#    print
+#henkilot = plaseeraus()
