@@ -98,9 +98,9 @@ class GUI(Frame):
 
 
 # Ikkunan alustus ja suorittaminen
-mainWindow = Tk()
-mainWindow.geometry('600x380')
+if __name__ == '__main__':
+    mainWindow = Tk()
+    mainWindow.geometry('600x380')
+    mainFrame = GUI(mainWindow)
+    mainWindow.mainloop()
 
-mainFrame = GUI(mainWindow)
-
-mainWindow.mainloop()
