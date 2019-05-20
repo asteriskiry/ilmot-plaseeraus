@@ -24,7 +24,7 @@ jN = 0
 # x ja y pitävät huolta pöydän indeksistä, jotta löydetään tyhjät kohdat
 x = 0
 y = 0
-n = len(lajittelemattomat) # Turha alustus
+n = len(lajittelemattomat)
 
 poyta = numpy.full((round(n/2), 2), Henkilo(None, None, None, None, None))#[[round(n/2), round(n/2)], [2, 2]]
 # poyta.[x][y], jos x on parillinen nainen oikealla, parittomalla nainen vasemmalla
@@ -128,42 +128,42 @@ def plaseeraus():
         istumaan(lajittelemattomat[kohta])
         #kohta += 1
 
-        #while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
-        #    poytaseurueistumaan(poyta[x][y])
-        #    x += 1
-        #    y += 1
-        #    if y == 2:
-        #        y = 0
+        while poyta[x][y] and poyta[x+1][y] and poyta[x+1][y+1] and poyta[x][y+1]:
+            poytaseurueistumaan(poyta[x][y])
+            x += 1
+            y += 1
+            if y == 2:
+                y = 0
     print(poyta)
     return poyta
 
 
-def excel():
+def excel(food, drink):
     # Koodi exceliin
     workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
     worksheet = workbook.add_worksheet()
     row = 0
     col = 0
     # Käyttöliittymästä true/false food ja drink attribuutteihin
-    if food is None and drink is None:
+    if food == False and drink == False:
         while row < n + 1:
             worksheet.write(row, col, poyta[row][col].name)
             worksheet.write(row, col + 1, poyta[row][col + 1].name)
             row += 1
 
-    elif food is None and drink:
+    elif food == False and drink == True:
         while row < n+1:
             worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton)
             worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton)
             row += 1
 
-    elif food and drink is None:
+    elif food == True and drink == False:
         while row < n+1:
             worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].lihaton)
             worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].lihaton)
             row += 1
 
-    elif food and drink:
+    elif food == True and drink == True:
         while row < n+1:
             worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton + ', ' + poyta[row][col].lihaton)
             worksheet.write(row, col + 1, poyta[row][col+1].name + ',' + poyta[row][col+1].holiton + ', ' + poyta[row][col+1].lihaton)
@@ -172,9 +172,9 @@ def excel():
     workbook.close()
     return plaseeraus.xlsx
 
-print(poyta)
-henkilot = plaseeraus()
+#print(poyta)
+#henkilot = plaseeraus()
 #print(henkilot[0][0].name)
-for i in range(len(poyta[:,0])):
-    for j in range(len(poyta[0])):
-        print(poyta[i][j].name)
+#for i in range(len(poyta[:,0])):
+#    for j in range(len(poyta[0])):
+#        print(poyta[i][j].name)

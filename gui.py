@@ -1,5 +1,6 @@
 from tkinter import *
 from Plaseeraus import plaseeraus
+from Plaseeraus import excel
 from Ukkelit import tuolista
 
 class GUI(Frame):
@@ -19,7 +20,8 @@ class GUI(Frame):
         self.pack(fill="both", expand=True)
 
         # Olion attribuutit
-        self.koko = StringVar()
+        self.checkOne = None
+        self.checkTwo = None
         self.poydat = StringVar()
         self.buttonit = []
         self.labels = []
@@ -30,10 +32,13 @@ class GUI(Frame):
     def content(self):
         
         # Luodaan ykkös frameen tekstit, syötekentät sekä submit button
-        lblOtsikko = Label(self.frame1, text="Syötä osallistujamäärä:").pack(pady=3)
-        eKoko = Entry(self.frame1, textvariable=self.koko).pack()
-        lblOtsikko2 = Label(self.frame1, text="Syötä pöytien määrä:").pack(pady=2)
-        ePoydat = Entry(self.frame1, textvariable=self.poydat).pack()     
+        lblOtsikko1 = Label(self.frame1, text="Syötä pöytien määrä:").pack(pady=2)
+        ePoydat = Entry(self.frame1, textvariable=self.poydat).pack()
+        lblExcel = Label(self.frame1, text="Tallennetaanko exceliin?").pack(pady=2)
+        buttonFrame = Frame(self.frame1)
+        self.checkOne = Checkbutton(buttonFrame, text="Ruoka?").pack(pady=2)
+        self.checkTwo = Checkbutton(buttonFrame, text="Juoma?").pack(pady=2)
+        buttonFrame.pack()
         bSuorita = Button(self.frame1, text="Suorita", command=self.suorita).pack(pady=2)
 
     # Submit buttonin toiminnallisuus
@@ -49,13 +54,16 @@ class GUI(Frame):
         self.labels.clear()
 
         # Haetaan olion attribuuteista arvot sekä muunnetaan ne floatista inttiin
+        henkilot = list(tuolista())
         try:
-            osallistujat = int(self.koko.get())
+            osallistujat = len(henkilot)
             poydat = int(self.poydat.get())
         except ValueError:
             return
         poytaosallistujat = int(osallistujat/poydat)
-        henkilot = list(tuolista())
+
+        # Exceliin
+        excel(self.checkOne, self.checkTwo)
 
         # Iteroidaan osallistujat "pöytiin" eli oikeille paikoille framea
         # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä
