@@ -36,72 +36,45 @@ def istumaan(henkilo):
     global jN
     global iM
     global jM
-    print(henkilo.name)
-    #print(henkilo.gender)
-    if henkilo.gender != "man": # and henkilo:
-        # On siis nainen tai muu
-        if iN % 2 == 0 and jN % 2 == 0: #and poyta[iN][jN].name is not None:
-            # On siis parillinen ja parillinen
+    if henkilo.gender != "man": # On siis nainen tai muu
+        if iN % 2 == 0 and jN % 2 == 0: # On siis parillinen ja parillinen
             poyta[iN][jN] = henkilo
             iN += 1
-            print("!!Done1")
-        elif iN % 2 == 0 and jN % 2 == 1: #and poyta[iN][jN].name is not None:
-            # On siis parillinen ja pariton
+        elif iN % 2 == 0 and jN % 2 == 1: # On siis parillinen ja pariton
             poyta[iN][jN] = henkilo
             jN += 1
-            print("!!Done2")
         else: #if poyta[iN][jN]:
-            #print("jN: " + str(jN))
-            #print("iN: " + str(iN))
             if jN == 2:
                 jN = 0
             if iN == round(n/2) or iN + 1 >= round(n/2):
                 iN = 0
             if not (poyta[iN+1][jN].name is None):
                 poyta[iN+1][jN] = henkilo
-                print("!!Done3")
-                #print("True")
-            #print("iN: " + str(iN))
-            #print(henkilo.name)
-            #print(henkilo.gender)
-            #print(poyta[iN])
             if jN + 1 >= 2:
                 jN = 0
             elif not (poyta[iN][jN+1].name is None):
                 poyta[iN][jN+1] = henkilo
-                print("!!Done4")
-                #print("True")
-            #print("iN: " + str(iN) + " jN: " + str(jN))
         if jN == 2:
             jN = 0
 
-    if henkilo.gender != "woman": # and henkilo:
-        # On siis mies tai muu
-        if iM % 2 == 1 and jM % 2 == 1: #and poyta[iM][jM] is None:
-            # On siis pariton ja pariton
+    if henkilo.gender != "woman": # On siis mies tai muu
+        if iM % 2 == 1 and jM % 2 == 1: # On siis pariton ja pariton
             poyta[iM][jM] = henkilo
             jM += 1
-            print("!!Done1.2")
-        elif iM % 2 == 1 and jM % 2 == 0: #and poyta[iM][jM] is None:  # on siis parillinen ja pariton
+        elif iM % 2 == 1 and jM % 2 == 0: # on siis parillinen ja pariton
             poyta[iM][jM] = henkilo
             iM += 1
-            print("!!Done2.2")
-        else: #if poyta[iM][jM]:
+        else:
             if jM == 2:
                 jM = 0
             if iM == round(n/2) or iM + 1 >= round(n/2):
                 iM = 0
             if not (poyta[iM + 1][jM].name is None):
                 poyta[iM + 1][jM] = henkilo
-                #print("True")
-                print("!!Done3.2")
             if jM + 1 >= 2:
                 jM = 0
             elif not (poyta[iM][jM + 1].name is None):
                 poyta[iM][jM + 1] = henkilo
-                #print("True")
-                print("!!Done4.2")
-            #print("iM: " + str(iM) + " jM: " + str(jM))
         if jM == 2:
             jM = 0
         if iM == round(n/2):
@@ -170,7 +143,6 @@ def excel(food, drink):
             row += 1
 
     workbook.close()
-    return plaseeraus.xlsx
 
 #print(poyta)
 #henkilot = plaseeraus()
