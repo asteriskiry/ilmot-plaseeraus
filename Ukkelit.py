@@ -7,17 +7,17 @@ class Henkilo:
         self.lihaton = lihaton
 
 Anna = Henkilo("Anna", "woman", [], "holiton", "lihaa")
-Sanna = Henkilo("Sanna", "other", [], "holillinen", "lihaa")
+Sanna = Henkilo("Sanna", "woman", [], "holillinen", "lihaa")
 Janna = Henkilo("Janna", "woman", [], "holillinen", "lihaa")
 Manna = Henkilo("Manna", "woman", [], "holillinen", "kasvis")
 Jaakko = Henkilo("Jaakko", "man", [], "holiton", "lihaa")
 Kaakko = Henkilo("Kaakko", "man", [], "holiton", "lihaa")
-Saakko = Henkilo("Saakko", "other", [], "holillinen", "lihaa")
+Saakko = Henkilo("Saakko", "man", [], "holillinen", "lihaa")
 Laakko = Henkilo("Laakko", "man", [], "holillinen", "kasvis")
-Salli = Henkilo("Salli", "woman", [], "holiton", "lihaa")
+Salli = Henkilo("Salli", "other", [], "holiton", "lihaa")
 Lalli = Henkilo("Lalli", "man", [], "holillinen", "piispa")
-Malli = Henkilo("Malli", None, [], "holillinen", "lihaa")
-Nalli = Henkilo("Nalli", "other", [], "holillinen", "kasvis")
+Malli = Henkilo("Malli", "woman", [], "holillinen", "lihaa")
+Nalli = Henkilo("Nalli", None, [], "holillinen", "kasvis")
 
 Sanna.friends = [Anna]
 Janna.friends = [Manna, Salli]

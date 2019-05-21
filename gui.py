@@ -1,5 +1,5 @@
 from tkinter import *
-from Plaseeraus import plaseeraus
+from Plaseerausver2 import plaseeraus
 from Plaseeraus import excel
 from Ukkelit import tuolista
 
@@ -54,7 +54,7 @@ class GUI(Frame):
         self.labels.clear()
 
         # Haetaan olion attribuuteista arvot sekä muunnetaan ne floatista inttiin
-        henkilot = list(tuolista())
+        henkilot = list(plaseeraus())
         try:
             osallistujat = len(henkilot)
             poydat = int(self.poydat.get())
@@ -75,6 +75,9 @@ class GUI(Frame):
             self.labels[j].place(x = xpos + 35, y = 0)
             for i in range(poytaosallistujat):
                 valittuhenkilo = henkilot[0]
+                if valittuhenkilo is None:
+                    henkilot.remove(valittuhenkilo)
+                    valittuhenkilo = Henkilo("Tyhjä", "Tyhjä", [], "Tyhjä", "Tyhjä")
                 self.buttonit.append(Button(self.frame2, text=valittuhenkilo.name, width = 6, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)))
                 if (i % 2 != 0):
                     xpos += 60
@@ -85,7 +88,8 @@ class GUI(Frame):
                     self.buttonit[paikkanro].place(x = xpos, y = ypos)
                 ypos += 28
                 paikkanro += 1
-                henkilot.remove(valittuhenkilo)
+                if valittuhenkilo.name != "Tyhjä":
+                    henkilot.remove(valittuhenkilo)
     
     def lisatiedot(self, paikkanro, vhenkilo):
         top = Toplevel()
@@ -106,9 +110,9 @@ class GUI(Frame):
 
 
 # Ikkunan alustus ja suorittaminen
-mainWindow = Tk()
-mainWindow.geometry('600x380')
+if __name__ == '__main__':
+    mainWindow = Tk()
+    mainWindow.geometry('600x380')
+    mainFrame = GUI(mainWindow)
+    mainWindow.mainloop()
 
-mainFrame = GUI(mainWindow)
-
-mainWindow.mainloop()
