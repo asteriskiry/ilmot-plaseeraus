@@ -1,5 +1,5 @@
 from tkinter import *
-from Plaseeraus import plaseeraus
+from Plaseerausver2 import plaseeraus
 from Plaseeraus import excel
 from Ukkelit import tuolista
 
@@ -54,7 +54,7 @@ class GUI(Frame):
         self.labels.clear()
 
         # Haetaan olion attribuuteista arvot sekä muunnetaan ne floatista inttiin
-        henkilot = list(tuolista())
+        henkilot = list(plaseeraus())
         try:
             osallistujat = len(henkilot)
             poydat = int(self.poydat.get())

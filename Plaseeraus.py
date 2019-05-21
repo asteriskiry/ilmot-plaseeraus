@@ -5,8 +5,6 @@ import numpy
 
 
 # Alkuun oliolista osallistujista
-# TODO lisää Juuson text_preprocessing_template.py viittaus alkuun, että nimet halutussa muodossa
-# Lisätään tuo tokenizer myöhemmin hienosäädössä
 
 # lajittelemattomat = [Participant.objects.filter(event_type=uid)]
 # Ylempi tulee korvaamaan alemman
@@ -36,56 +34,57 @@ def istumaan(henkilo):
     global jN
     global iM
     global jM
-    if henkilo.gender != "man": # On siis nainen tai muu
-        if iN % 2 == 0 and jN % 2 == 0: # On siis parillinen ja parillinen
-            poyta[iN][jN] = henkilo
-            iN += 1
-        elif iN % 2 == 0 and jN % 2 == 1: # On siis parillinen ja pariton
-            poyta[iN][jN] = henkilo
-            jN += 1
-        else: #if poyta[iN][jN]:
+    if henkilo in lajittelemattomat:
+        if henkilo.gender != "man":  # On siis nainen tai muu
+            if iN % 2 == 0 and jN % 2 == 0:  # On siis parillinen ja parillinen
+                poyta[iN][jN] = henkilo
+                iN += 1
+            elif iN % 2 == 0 and jN % 2 == 1:  # On siis parillinen ja pariton
+                poyta[iN][jN] = henkilo
+                jN += 1
+            else:  # if poyta[iN][jN]:
+                if jN == 2:
+                    jN = 0
+                if iN == round(n/2) or iN + 1 >= round(n/2):
+                    iN = 0
+                if not (poyta[iN+1][jN].name is None):
+                    poyta[iN+1][jN] = henkilo
+                if jN + 1 >= 2:
+                    jN = 0
+                elif not (poyta[iN][jN+1].name is None):
+                    poyta[iN][jN+1] = henkilo
             if jN == 2:
                 jN = 0
-            if iN == round(n/2) or iN + 1 >= round(n/2):
-                iN = 0
-            if not (poyta[iN+1][jN].name is None):
-                poyta[iN+1][jN] = henkilo
-            if jN + 1 >= 2:
-                jN = 0
-            elif not (poyta[iN][jN+1].name is None):
-                poyta[iN][jN+1] = henkilo
-        if jN == 2:
-            jN = 0
 
-    if henkilo.gender != "woman": # On siis mies tai muu
-        if iM % 2 == 1 and jM % 2 == 1: # On siis pariton ja pariton
-            poyta[iM][jM] = henkilo
-            jM += 1
-        elif iM % 2 == 1 and jM % 2 == 0: # on siis parillinen ja pariton
-            poyta[iM][jM] = henkilo
-            iM += 1
-        else:
+        if henkilo.gender != "woman": # On siis mies tai muu
+            if iM % 2 == 1 and jM % 2 == 1: # On siis pariton ja pariton
+                poyta[iM][jM] = henkilo
+                jM += 1
+            elif iM % 2 == 1 and jM % 2 == 0: # on siis parillinen ja pariton
+                poyta[iM][jM] = henkilo
+                iM += 1
+            else:
+                if jM == 2:
+                    jM = 0
+                if iM == round(n/2) or iM + 1 >= round(n/2):
+                    iM = 0
+                if not (poyta[iM + 1][jM].name is None):
+                    poyta[iM + 1][jM] = henkilo
+                if jM + 1 >= 2:
+                    jM = 0
+                elif not (poyta[iM][jM + 1].name is None):
+                    poyta[iM][jM + 1] = henkilo
             if jM == 2:
                 jM = 0
-            if iM == round(n/2) or iM + 1 >= round(n/2):
+            if iM == round(n/2):
                 iM = 0
-            if not (poyta[iM + 1][jM].name is None):
-                poyta[iM + 1][jM] = henkilo
-            if jM + 1 >= 2:
-                jM = 0
-            elif not (poyta[iM][jM + 1].name is None):
-                poyta[iM][jM + 1] = henkilo
-        if jM == 2:
-            jM = 0
-        if iM == round(n/2):
-            iM = 0
 
-    lajittelemattomat.remove(henkilo)
+        lajittelemattomat.remove(henkilo)
 
 
 def poytaseurueistumaan(henkilo):
-    for h in henkilo.friends:
-        if henkilo.friends(h):
+    if henkilo.friends != None:
+        for h in henkilo.friends:
             istumaan(h)
 
 # TODO lisää jokin, jolla mennään eteenpäin lista
@@ -105,10 +104,12 @@ def plaseeraus():
             poytaseurueistumaan(poyta[x][y])
             x += 1
             y += 1
-            if y == 2:
+            if y == 1:
                 y = 0
+            if x == round(n/2)-1:
+                x = 0
     print(poyta)
-    return poyta
+    return poyta.tolist()
 
 
 def excel(food, drink):
@@ -144,9 +145,9 @@ def excel(food, drink):
 
     workbook.close()
 
-#print(poyta)
-#henkilot = plaseeraus()
-#print(henkilot[0][0].name)
-#for i in range(len(poyta[:,0])):
+# print(poyta)
+# henkilot = plaseeraus()
+# print(henkilot[0][0].name)
+# for i in range(len(poyta[:,0])):
 #    for j in range(len(poyta[0])):
 #        print(poyta[i][j].name)
