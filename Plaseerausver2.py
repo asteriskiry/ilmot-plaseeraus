@@ -25,91 +25,88 @@ def istumaan(henkilo):
     global poyta
 
     if henkilo:
-        if henkilo.gender == "woman":
-            if henkilo in lajittelemattomat:  # On siis nainen tai muu
-                if kohta % 2 != 0:
-                    temp = kohta
-                    while temp < n:
-                        if poyta[temp] is None:
-                            poyta[temp] = henkilo
-                            break
-                        temp += 2
+        if henkilo.gender == "woman" and henkilo in lajittelemattomat:
 
-                elif kohta + 1 < round(n):
-                    temp = kohta + 1
-                    while temp < n:
-                        if poyta[temp] is None:
-                            poyta[temp] = henkilo
-                            break
-                        temp += 2
+            if kohta % 2 != 0:
+                temp = kohta
+                while temp < n:
+                    if poyta[temp] is None:
+                        poyta[temp] = henkilo
+                        break
+                    temp += 2
 
-                else:
-                    if kohta + 1 >= n:
-                        kohta = 0
+            elif kohta + 1 < round(n):
+                temp = kohta + 1
+                while temp < n:
+                    if poyta[temp] is None:
+                        poyta[temp] = henkilo
+                        break
+                    temp += 2
 
-                    if poyta[kohta] is None:
-                        poyta[kohta] = henkilo
-
-                    else:
-                        for i in range(n):
-                            if poyta[i] is None:
-                                poyta[i] = henkilo
-                                break
+            else:
                 if kohta + 1 >= n:
                     kohta = 0
 
-                else:
-                    kohta += 1
-
-                lajittelemattomat[lajittelemattomat.index(henkilo)] = None
-
-        elif henkilo.gender == "man":
-            if henkilo in lajittelemattomat:  # On siis nainen tai muu
-                if kohta % 2 != 1:
-                    temp = kohta
-                    while temp < n:
-                        if poyta[temp] is None:
-                            poyta[temp] = henkilo
-                            break
-                        temp += 2
-                    print("hello")
-
-                elif kohta + 1 < n:
-                    temp = kohta + 1
-                    while temp < n:
-                        if poyta[temp] is None:
-                            poyta[temp] = henkilo
-                            break
-                        temp += 2
-                    print("hello")
+                if poyta[kohta] is None:
+                    poyta[kohta] = henkilo
 
                 else:
-                    if kohta + 1 >= n:
-                        kohta = 0
+                    for i in range(n):
+                        if poyta[i] is None:
+                            poyta[i] = henkilo
+                            break
+            if kohta + 1 >= n:
+                kohta = 0
 
-                    if poyta[kohta] is None:
-                        poyta[kohta] = henkilo
+            else:
+                kohta += 1
 
-                    else:
-                        for i in range(n):
-                            if poyta[i] is None:
-                                poyta[i] = henkilo
-                                break
+            lajittelemattomat[lajittelemattomat.index(henkilo)] = None
+
+        elif henkilo.gender == "man" and henkilo in lajittelemattomat:
+            if kohta % 2 != 1:
+                temp = kohta
+                while temp < n:
+                    if poyta[temp] is None:
+                        poyta[temp] = henkilo
+                        break
+                    temp += 2
+
+            elif kohta + 1 < n:
+                temp = kohta + 1
+                while temp < n:
+                    if poyta[temp] is None:
+                        poyta[temp] = henkilo
+                        break
+                    temp += 2
+
+            else:
                 if kohta + 1 >= n:
                     kohta = 0
 
-                else:
-                    kohta += 1
+                if poyta[kohta] is None:
+                    poyta[kohta] = henkilo
 
-                lajittelemattomat[lajittelemattomat.index(henkilo)] = None
+                else:
+                    for i in range(n):
+                        if poyta[i] is None:
+                            poyta[i] = henkilo
+                            break
+            if kohta + 1 >= n:
+                kohta = 0
+
+            else:
+                kohta += 1
+
+            lajittelemattomat[lajittelemattomat.index(henkilo)] = None
 
         else:
-            print("virhe")
-            for i in range(n):
-                if poyta[i] is None:
-                    poyta[i] = henkilo
-                    break
-            lajittelemattomat[lajittelemattomat.index(henkilo)] = None
+            if( henkilo in lajittelemattomat):
+                for i in range(n):
+                    if poyta[i] is None:
+                        poyta[i] = henkilo
+                        break
+                lajittelemattomat[lajittelemattomat.index(henkilo)] = None
 
 
 def poytaseurueistumaan(henkilo):
@@ -132,8 +129,9 @@ def plaseeraus():
     i = 0
     while paikka < len(lajittelemattomat):
         istumaan(lajittelemattomat[paikka])
-        while i:
+        while i < n and poyta[i]:
             poytaseurueistumaan(poyta[i])
+            i += 1
         paikka += 1
     vaihda()
     return poyta
