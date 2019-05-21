@@ -75,6 +75,9 @@ class GUI(Frame):
             self.labels[j].place(x = xpos + 35, y = 0)
             for i in range(poytaosallistujat):
                 valittuhenkilo = henkilot[0]
+                if valittuhenkilo is None:
+                    henkilot.remove(valittuhenkilo)
+                    valittuhenkilo = Henkilo("Tyhjä", "Tyhjä", [], "Tyhjä", "Tyhjä")
                 self.buttonit.append(Button(self.frame2, text=valittuhenkilo.name, width = 6, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)))
                 if (i % 2 != 0):
                     xpos += 60
@@ -85,7 +88,8 @@ class GUI(Frame):
                     self.buttonit[paikkanro].place(x = xpos, y = ypos)
                 ypos += 28
                 paikkanro += 1
-                henkilot.remove(valittuhenkilo)
+                if valittuhenkilo.name != "Tyhjä":
+                    henkilot.remove(valittuhenkilo)
     
     def lisatiedot(self, paikkanro, vhenkilo):
         top = Toplevel()
