@@ -1,6 +1,6 @@
 from tkinter import *
 from Plaseerausver2 import plaseeraus
-from Plaseeraus import excel
+from Plaseerausver2 import excel
 from Ukkelit import tuolista
 
 class GUI(Frame):

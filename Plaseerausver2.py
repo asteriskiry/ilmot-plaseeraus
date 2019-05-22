@@ -1,7 +1,7 @@
 import random
 import xlsxwriter
+from numpy import reshape
 from Ukkelit import *
-
 
 # Alkuun oliolista osallistujista
 
@@ -101,7 +101,7 @@ def istumaan(henkilo):
             lajittelemattomat[lajittelemattomat.index(henkilo)] = None
 
         else:
-            if( henkilo in lajittelemattomat):
+            if henkilo in lajittelemattomat:
                 for i in range(n):
                     if poyta[i] is None:
                         poyta[i] = henkilo
@@ -129,45 +129,62 @@ def plaseeraus():
     i = 0
     while paikka < len(lajittelemattomat):
         istumaan(lajittelemattomat[paikka])
-        while i < n and poyta[i]:
+        while i < len(poyta) and poyta[i]:
             poytaseurueistumaan(poyta[i])
             i += 1
         paikka += 1
     vaihda()
+    if None in poyta:
+        poyta.remove(None)
+    tarkista = list(tuolista())
+    for i in range(len(tarkista)):
+        if tarkista[i] not in poyta:
+            poyta.append(tarkista[i])
     return poyta
+
+
+def matriisi(lista):
+    shape = (round(len(lista) / 2), 2)
+    if len(lista) % 2 == 1:
+        tyhja = Henkilo("-", "-", [], "-", "-")
+        lista.append(tyhja)
+    lista = reshape(lista, shape)
+    return lista
 
 
 def excel(food, drink):
     # Koodi exceliin
+    matrix = matriisi(poyta)
     workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
     worksheet = workbook.add_worksheet()
     row = 0
     col = 0
+    rivit = round(len(poyta) / 2)
     # Käyttöliittymästä true/false food ja drink attribuutteihin
     if not food and not drink:
-        while row < n + 1:
-            worksheet.write(row, col, poyta[row][col].name)
-            worksheet.write(row, col + 1, poyta[row][col + 1].name)
+        while row < rivit:
+            worksheet.write(row, col, matrix[row][col].name)
+            worksheet.write(row, col + 1, matrix[row][col + 1].name)
             row += 1
 
     elif not food and drink:
-        while row < n + 1:
-            worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].holiton)
-            worksheet.write(row, col + 1, poyta[row][col + 1].name + ',' + poyta[row][col + 1].holiton)
+        while row < rivit:
+            worksheet.write(row, col, matrix[row][col].name + ',' + matrix[row][col].holiton)
+            worksheet.write(row, col + 1, matrix[row][col + 1].name + ',' + matrix[row][col + 1].holiton)
             row += 1
 
     elif food and not drink:
-        while row < n + 1:
-            worksheet.write(row, col, poyta[row][col].name + ',' + poyta[row][col].lihaton)
-            worksheet.write(row, col + 1, poyta[row][col + 1].name + ',' + poyta[row][col + 1].lihaton)
+        while row < rivit:
+            worksheet.write(row, col, matrix[row][col].name + ',' + matrix[row][col].lihaton)
+            worksheet.write(row, col + 1, matrix[row][col + 1].name + ',' + matrix[row][col + 1].lihaton)
             row += 1
 
     elif food and drink:
-        while row < n + 1:
+        while row < rivit:
             worksheet.write(row, col,
-                            poyta[row][col].name + ',' + poyta[row][col].holiton + ', ' + poyta[row][col].lihaton)
+                            matrix[row][col].name + ',' + matrix[row][col].holiton + ', ' + matrix[row][col].lihaton)
             worksheet.write(row, col + 1,
-                            poyta[row][col + 1].name + ',' + poyta[row][col + 1].holiton + ', ' + poyta[row][
+                            matrix[row][col + 1].name + ',' + matrix[row][col + 1].holiton + ', ' + matrix[row][
                                 col + 1].lihaton)
             row += 1
 
