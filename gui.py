@@ -1,7 +1,7 @@
 from tkinter import *
 from Plaseerausver2 import plaseeraus
 from Plaseerausver2 import excel
-from Ukkelit import tuolista
+from Ukkelit import *
 
 class GUI(Frame):
     
@@ -23,6 +23,8 @@ class GUI(Frame):
         self.checkOne = None
         self.checkTwo = None
         self.poydat = StringVar()
+        self.paikka1 = StringVar()
+        self.paikka2 = StringVar()
         self.buttonit = []
         self.labels = []
 
@@ -40,13 +42,14 @@ class GUI(Frame):
         self.checkTwo = Checkbutton(buttonFrame, text="Juoma?").pack(pady=2)
         buttonFrame.pack()
         bSuorita = Button(self.frame1, text="Suorita", command=self.suorita).pack(pady=2)
+        bVaihto = Button(self.frame1, text="Vaihto", command=self.vaihtoikkuna).pack(pady=2)
 
     # Submit buttonin toiminnallisuus
     def suorita(self):
         # Ruudun ja listojen tyhjennys uutta 'Suorita' painallusta varten
         if len(self.buttonit) > 0:
             for i in self.buttonit:
-                i.destroy()
+                i[0].destroy()
         self.buttonit.clear()
         if len(self.labels) > 0:
             for i in self.labels:
@@ -78,14 +81,18 @@ class GUI(Frame):
                 if valittuhenkilo is None:
                     henkilot.remove(valittuhenkilo)
                     valittuhenkilo = Henkilo("Tyhjä", "Tyhjä", [], "Tyhjä", "Tyhjä")
-                self.buttonit.append(Button(self.frame2, text=valittuhenkilo.name, width = 6, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)))
+                self.buttonit.append([Button(self.frame2, text=valittuhenkilo.name, width = 6, command=lambda c=paikkanro, d=valittuhenkilo: self.lisatiedot(c, d)), paikkanro, valittuhenkilo, 0, 0])
                 if (i % 2 != 0):
                     xpos += 60
                     ypos -= 28
-                    self.buttonit[paikkanro].place(x = xpos, y = ypos)
+                    self.buttonit[paikkanro][0].place(x = xpos, y = ypos)
+                    self.buttonit[paikkanro][3] = xpos
+                    self.buttonit[paikkanro][4] = ypos
                     xpos -= 60
                 else:
-                    self.buttonit[paikkanro].place(x = xpos, y = ypos)
+                    self.buttonit[paikkanro][0].place(x = xpos, y = ypos)
+                    self.buttonit[paikkanro][3] = xpos
+                    self.buttonit[paikkanro][4] = ypos
                 ypos += 28
                 paikkanro += 1
                 if valittuhenkilo.name != "Tyhjä":
@@ -107,7 +114,36 @@ class GUI(Frame):
         henkruoka = Label(top, text=ruoka).pack(pady=2)
         pois = Button(top, text="Pois", command=top.destroy).pack(pady=2)
 
+    def vaihtoikkuna(self):
+        if len(self.buttonit) < 2:
+            return
+        top = Toplevel()
+        top.geometry('350x170')
+        top.title("Vaihtoikkuna")
+        lblVaihto = Label(top, text="Vaihtoikkuna! Suorita alla paikan vaihto syöttämällä paikkanrot.").pack(pady=2)
+        lblPaikka1 = Label(top, text="Ensimmäinen paikkanro:").pack(pady=2)
+        ePaikka1 = Entry(top, textvariable=self.paikka1).pack()
+        lblPaikka2 = Label(top, text="Vaihdettava paikkanro:").pack(pady=2)
+        ePaikka2 = Entry(top, textvariable=self.paikka2).pack()
+        suoritaVaihto = Button(top, text="Vaihda", command=self.vaihto).pack(pady=2)
+        pois = Button(top, text="Pois", command=top.destroy).pack(pady=2)
 
+    def vaihto(self):
+        try:
+            paikka1Int = int(self.paikka1.get())
+            paikka2Int = int(self.paikka2.get())
+        except ValueError:
+            return
+        paikka1hlo = self.buttonit[paikka1Int]
+        paikka2hlo = self.buttonit[paikka2Int]
+        uusipaikka1hlo = [Button(self.frame2, text=paikka2hlo[2].name, width = 6, command=lambda c=paikka2hlo[1], d=paikka2hlo[2]: self.lisatiedot(c, d)), paikka2hlo[1], paikka2hlo[2], paikka1hlo[3], paikka1hlo[4]]
+        uusipaikka2hlo = [Button(self.frame2, text=paikka1hlo[2].name, width = 6, command=lambda c=paikka1hlo[1], d=paikka1hlo[2]: self.lisatiedot(c, d)), paikka1hlo[1], paikka1hlo[2], paikka2hlo[3], paikka2hlo[4]]
+        uusipaikka1hlo[0].place(x = uusipaikka1hlo[3], y = uusipaikka1hlo[4])
+        uusipaikka2hlo[0].place(x = uusipaikka2hlo[3], y = uusipaikka2hlo[4])
+        paikka1hlo[0].destroy()
+        paikka2hlo[0].destroy()
+        self.buttonit[paikka1Int] = uusipaikka1hlo
+        self.buttonit[paikka2Int] = uusipaikka2hlo
 
 # Ikkunan alustus ja suorittaminen
 if __name__ == '__main__':
@@ -115,4 +151,3 @@ if __name__ == '__main__':
     mainWindow.geometry('600x380')
     mainFrame = GUI(mainWindow)
     mainWindow.mainloop()
-
