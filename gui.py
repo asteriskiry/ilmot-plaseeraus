@@ -38,11 +38,14 @@ class GUI(Frame):
         ePoydat = Entry(self.frame1, textvariable=self.poydat).pack()
         lblExcel = Label(self.frame1, text="Tallennetaanko exceliin?").pack(pady=2)
         buttonFrame = Frame(self.frame1)
-        self.checkOne = Checkbutton(buttonFrame, text="Ruoka?").pack(pady=2)
-        self.checkTwo = Checkbutton(buttonFrame, text="Juoma?").pack(pady=2)
+        self.checkOne = Checkbutton(buttonFrame, text="Ruoka?").pack(pady=2, side = LEFT)
+        self.checkTwo = Checkbutton(buttonFrame, text="Juoma?").pack(pady=2, side = LEFT)
         buttonFrame.pack()
-        bSuorita = Button(self.frame1, text="Suorita", command=self.suorita).pack(pady=2)
-        bVaihto = Button(self.frame1, text="Vaihto", command=self.vaihtoikkuna).pack(pady=2)
+        buttonFrame2 = Frame(self.frame1)
+        bSuorita = Button(buttonFrame2, text="Suorita", width = 6, command=self.suorita).pack(pady=2, padx=4, side = LEFT)
+        bVaihto = Button(buttonFrame2, text="Vaihto", width = 6, command=self.vaihtoikkuna).pack(pady=2, padx=4, side = LEFT)
+        bExcel = Button(buttonFrame2, text="Excel", width = 6, command=lambda c=self.checkOne, d=self.checkTwo: self.excelCheck(c, d)).pack(pady=2, padx=4, side = LEFT)
+        buttonFrame2.pack()
 
     # Submit buttonin toiminnallisuus
     def suorita(self):
@@ -64,9 +67,6 @@ class GUI(Frame):
         except ValueError:
             return
         poytaosallistujat = int(osallistujat/poydat)
-
-        # Exceliin
-        excel(self.checkOne, self.checkTwo)
 
         # Iteroidaan osallistujat "pöytiin" eli oikeille paikoille framea
         # Tallennetaan osallistuja buttonit listaan, jotta osallistujia voidaan myöhemmin käsitellä
@@ -144,6 +144,12 @@ class GUI(Frame):
         paikka2hlo[0].destroy()
         self.buttonit[paikka1Int] = uusipaikka1hlo
         self.buttonit[paikka2Int] = uusipaikka2hlo
+    
+    # Exceliin
+    def excelCheck(self, checkOne, checkTwo):
+        if len(self.buttonit) == 0:
+            return
+        excel(self.checkOne, self.checkTwo)
 
 # Ikkunan alustus ja suorittaminen
 if __name__ == '__main__':
