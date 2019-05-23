@@ -136,8 +136,8 @@ class GUI(Frame):
             return
         paikka1hlo = self.buttonit[paikka1Int]
         paikka2hlo = self.buttonit[paikka2Int]
-        uusipaikka1hlo = [Button(self.frame2, text=paikka2hlo[2].name, width = 6, command=lambda c=paikka2hlo[1], d=paikka2hlo[2]: self.lisatiedot(c, d)), paikka2hlo[1], paikka2hlo[2], paikka1hlo[3], paikka1hlo[4]]
-        uusipaikka2hlo = [Button(self.frame2, text=paikka1hlo[2].name, width = 6, command=lambda c=paikka1hlo[1], d=paikka1hlo[2]: self.lisatiedot(c, d)), paikka1hlo[1], paikka1hlo[2], paikka2hlo[3], paikka2hlo[4]]
+        uusipaikka1hlo = [Button(self.frame2, text=paikka2hlo[2].name, width = 6, command=lambda c=paikka1hlo[1], d=paikka2hlo[2]: self.lisatiedot(c, d)), paikka1hlo[1], paikka2hlo[2], paikka1hlo[3], paikka1hlo[4]]
+        uusipaikka2hlo = [Button(self.frame2, text=paikka1hlo[2].name, width = 6, command=lambda c=paikka2hlo[1], d=paikka1hlo[2]: self.lisatiedot(c, d)), paikka2hlo[1], paikka1hlo[2], paikka2hlo[3], paikka2hlo[4]]
         uusipaikka1hlo[0].place(x = uusipaikka1hlo[3], y = uusipaikka1hlo[4])
         uusipaikka2hlo[0].place(x = uusipaikka2hlo[3], y = uusipaikka2hlo[4])
         paikka1hlo[0].destroy()
