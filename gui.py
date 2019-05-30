@@ -44,7 +44,7 @@ class GUI(Frame):
         buttonFrame2 = Frame(self.frame1)
         bSuorita = Button(buttonFrame2, text="Suorita", width = 6, command=self.suorita).pack(pady=2, padx=4, side = LEFT)
         bVaihto = Button(buttonFrame2, text="Vaihto", width = 6, command=self.vaihtoikkuna).pack(pady=2, padx=4, side = LEFT)
-        bExcel = Button(buttonFrame2, text="Excel", width = 6, command=lambda c=self.checkOne, d=self.checkTwo: self.excelCheck(c, d)).pack(pady=2, padx=4, side = LEFT)
+        bExcel = Button(buttonFrame2, text="Excel", width = 6, command=self.excelCheck).pack(pady=2, padx=4, side = LEFT)
         buttonFrame2.pack()
 
     # Submit buttonin toiminnallisuus
@@ -134,8 +134,11 @@ class GUI(Frame):
             paikka2Int = int(self.paikka2.get())
         except ValueError:
             return
-        paikka1hlo = self.buttonit[paikka1Int]
-        paikka2hlo = self.buttonit[paikka2Int]
+        try:
+            paikka1hlo = self.buttonit[paikka1Int]
+            paikka2hlo = self.buttonit[paikka2Int]
+        except IndexError:
+            return
         uusipaikka1hlo = [Button(self.frame2, text=paikka2hlo[2].name, width = 6, command=lambda c=paikka1hlo[1], d=paikka2hlo[2]: self.lisatiedot(c, d)), paikka1hlo[1], paikka2hlo[2], paikka1hlo[3], paikka1hlo[4]]
         uusipaikka2hlo = [Button(self.frame2, text=paikka1hlo[2].name, width = 6, command=lambda c=paikka2hlo[1], d=paikka1hlo[2]: self.lisatiedot(c, d)), paikka2hlo[1], paikka1hlo[2], paikka2hlo[3], paikka2hlo[4]]
         uusipaikka1hlo[0].place(x = uusipaikka1hlo[3], y = uusipaikka1hlo[4])
@@ -146,10 +149,13 @@ class GUI(Frame):
         self.buttonit[paikka2Int] = uusipaikka2hlo
     
     # Exceliin
-    def excelCheck(self, checkOne, checkTwo):
+    def excelCheck(self):
         if len(self.buttonit) == 0:
             return
-        excel(self.checkOne, self.checkTwo)
+        poyta = list()
+        for i in self.buttonit:
+            poyta.append(i[2])
+        excel(self.checkOne, self.checkTwo, self.poydat, poyta)
 
 # Ikkunan alustus ja suorittaminen
 if __name__ == '__main__':

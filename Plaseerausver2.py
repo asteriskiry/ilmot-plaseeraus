@@ -152,7 +152,7 @@ def matriisi(lista):
     return lista
 
 
-def excel(food, drink):
+def excel(food, drink, poytienmaara, uusipoyta):
     # Koodi exceliin
     matrix = matriisi(poyta)
     workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
