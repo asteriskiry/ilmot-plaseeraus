@@ -154,45 +154,83 @@ def matriisi(lista):
 
 def excel(food, drink, poytienmaara, uusipoyta):
     # Koodi exceliin
-    matrix = matriisi(poyta)
+    matrix = matriisi(uusipoyta)
     workbook = xlsxwriter.Workbook('plaseeraus.xlsx')
-    worksheet = workbook.add_worksheet()
+    worksheet = workbook.add_worksheet('Plaseeraus')
+    erow = 1
+    ecol = 0
     row = 0
     col = 0
-    rivit = round(len(poyta) / 2)
+    rivit = round(len(uusipoyta) / 2)
+    poytaosallistujat = int(len(uusipoyta)/int(poytienmaara))
+    istutettu = 0
+    poytanro = 1
     # Käyttöliittymästä true/false food ja drink attribuutteihin
     if not food and not drink:
+        worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
         while row < rivit:
-            worksheet.write(row, col, matrix[row][col].name)
-            worksheet.write(row, col + 1, matrix[row][col + 1].name)
+            if istutettu == poytaosallistujat:
+                istutettu = 0
+                erow = 1
+                ecol += 3
+                poytanro += 1
+                worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
+            worksheet.write(erow, ecol, matrix[row][col].name)
+            istutettu += 1
+            worksheet.write(erow, ecol + 1, matrix[row][col + 1].name)
+            istutettu += 1
             row += 1
+            erow += 1
 
     elif not food and drink:
+        worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
         while row < rivit:
-            worksheet.write(row, col, matrix[row][col].name + ',' + matrix[row][col].holiton)
-            worksheet.write(row, col + 1, matrix[row][col + 1].name + ',' + matrix[row][col + 1].holiton)
+            if istutettu == poytaosallistujat:
+                istutettu = 0
+                erow = 1
+                ecol += 3
+                poytanro += 1
+                worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
+            worksheet.write(erow, ecol, matrix[row][col].name + ', ' + matrix[row][col].holiton)
+            istutettu += 1
+            worksheet.write(erow, ecol + 1, matrix[row][col + 1].name + ', ' + matrix[row][col + 1].holiton)
+            istutettu += 1
             row += 1
+            erow += 1
 
     elif food and not drink:
+        worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
         while row < rivit:
-            worksheet.write(row, col, matrix[row][col].name + ',' + matrix[row][col].lihaton)
-            worksheet.write(row, col + 1, matrix[row][col + 1].name + ',' + matrix[row][col + 1].lihaton)
+            if istutettu == poytaosallistujat:
+                istutettu = 0
+                erow = 1
+                ecol += 3
+                poytanro += 1
+                worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
+            worksheet.write(erow, ecol, matrix[row][col].name + ', ' + matrix[row][col].lihaton)
+            istutettu += 1
+            worksheet.write(erow, ecol + 1, matrix[row][col + 1].name + ', ' + matrix[row][col + 1].lihaton)
+            istutettu += 1
             row += 1
+            erow += 1
 
     elif food and drink:
+        worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
         while row < rivit:
-            worksheet.write(row, col,
-                            matrix[row][col].name + ',' + matrix[row][col].holiton + ', ' + matrix[row][col].lihaton)
-            worksheet.write(row, col + 1,
-                            matrix[row][col + 1].name + ',' + matrix[row][col + 1].holiton + ', ' + matrix[row][
+            if istutettu == poytaosallistujat:
+                istutettu = 0
+                erow = 1
+                ecol += 3
+                poytanro += 1
+                worksheet.write(erow - 1, ecol, 'Poytänro ' + str(poytanro))
+            worksheet.write(erow, ecol,
+                            matrix[row][col].name + ', ' + matrix[row][col].holiton + ', ' + matrix[row][col].lihaton)
+            istutettu += 1
+            worksheet.write(erow, ecol + 1,
+                            matrix[row][col + 1].name + ', ' + matrix[row][col + 1].holiton + ', ' + matrix[row][
                                 col + 1].lihaton)
+            istutettu += 1
             row += 1
+            erow += 1
 
     workbook.close()
-
-# print(poyta)
-# henkilot = plaseeraus()
-# print(henkilot[0][0].name)
-# for i in range(len(poyta[:,0])):
-#    for j in range(len(poyta[0])):
-#        print(poyta[i][j].name)

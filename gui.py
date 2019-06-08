@@ -20,8 +20,8 @@ class GUI(Frame):
         self.pack(fill="both", expand=True)
 
         # Olion attribuutit
-        self.checkOne = None
-        self.checkTwo = None
+        self.checkOne = BooleanVar()
+        self.checkTwo = BooleanVar()
         self.poydat = StringVar()
         self.paikka1 = StringVar()
         self.paikka2 = StringVar()
@@ -38,8 +38,8 @@ class GUI(Frame):
         ePoydat = Entry(self.frame1, textvariable=self.poydat).pack()
         lblExcel = Label(self.frame1, text="Tallennetaanko exceliin?").pack(pady=2)
         buttonFrame = Frame(self.frame1)
-        self.checkOne = Checkbutton(buttonFrame, text="Ruoka?").pack(pady=2, side = LEFT)
-        self.checkTwo = Checkbutton(buttonFrame, text="Juoma?").pack(pady=2, side = LEFT)
+        chkOne = Checkbutton(buttonFrame, text="Ruoka?", variable=self.checkOne).pack(pady=2, side = LEFT)
+        chkTwo = Checkbutton(buttonFrame, text="Juoma?", variable=self.checkTwo).pack(pady=2, side = LEFT)
         buttonFrame.pack()
         buttonFrame2 = Frame(self.frame1)
         bSuorita = Button(buttonFrame2, text="Suorita", width = 6, command=self.suorita).pack(pady=2, padx=4, side = LEFT)
@@ -155,7 +155,7 @@ class GUI(Frame):
         poyta = list()
         for i in self.buttonit:
             poyta.append(i[2])
-        excel(self.checkOne, self.checkTwo, self.poydat, poyta)
+        excel(self.checkOne.get(), self.checkTwo.get(), self.poydat.get(), poyta)
 
 # Ikkunan alustus ja suorittaminen
 if __name__ == '__main__':
